@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block metatitle %}Page Not Found{% endblock metatitle %}
+
+{% block content %}
+{% if request.path|slice:"0:7" != '/admin/' and request.path != 'app2/home/'  %}  
+<section class="error-section section_padding">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-sm-8">
+                <div class="error-content text-center">
+                    <img src="{% static 'app/img/404.webp' %}" style="max-width: 600px; max-height: 600px;" alt="404">
+                    <h2>Oops! Page not found</h2>
+                    <p>The page you are looking for might have been removed or is temporarily unavailable.</p>
+                    <a href="{% url 'app:home' %}" class="btn_1">Go to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

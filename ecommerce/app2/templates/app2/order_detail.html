@@ -1,0 +1,62 @@
+{% extends 'app2/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main_content_iner">
+    <div class="container-fluid p-0 sm_padding_15px">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="dashboard_header mb-4">
+                    <h2>Order Details</h2>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>User</th>
+                                        <th>Address</th>
+                                        <th>Product</th>
+                                        <th>Product Image</th>
+                                        <th>Quantity</th>
+                                        <th>Ordered Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.user }}</td>
+                                        <td>{{ order.address }}</td>
+                                        <td>{{ order.product }}</td>
+                                        <td><img src="{{ order.product.product_image.url }}" alt="{{ order.product.title }}" width="100"></td>
+                                        <td>{{ order.quantity }}</td>
+                                        <td>{{ order.ordered_date }}</td>
+                                        <td>{{ order.status }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <form method="post">
+                                {% csrf_token %}
+                                <label for="status">Update Status:</label>
+                                <select name="status" id="status">
+                                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Accepted" {% if order.status == 'Accepted' %}selected{% endif %}>Accepted</option>
+                                    <option value="Packed" {% if order.status == 'Packed' %}selected{% endif %}>Packed</option>
+                                    <option value="On The Way" {% if order.status == 'On The Way' %}selected{% endif %}>On The Way</option>
+                                    <option value="Delivered" {% if order.status == 'Delivered' %}selected{% endif %}>Delivered</option>
+                                    <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                </select>
+                                <button type="submit">Update Status</button>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
