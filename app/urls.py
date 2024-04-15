@@ -20,7 +20,8 @@ urlpatterns = [
 
     path('api/product/', views.product_list),
     path('api/product/<int:pk>/', views.product_detail),
-    #api practice end
+    #end api practice lines
+    
     path('add-to-cart/', views.add_to_cart, name="add-to-cart"),
     path('remove-cart/<int:cart_id>/', views.remove_cart, name="remove-cart"),
     path('plus-cart/<int:cart_id>/', views.plus_cart, name="plus-cart"),
