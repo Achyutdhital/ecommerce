@@ -1,0 +1,92 @@
+{% extends 'app2/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main_content_iner">
+    <div class="container-fluid p-0 sm_padding_15px">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="row">
+                    <div class="add_button" style="text-align: right;">
+                        <a href="{% url 'app2:add_edit_category' %}" class="btn btn-success btn-circle btn-lg">
+                            Add Category <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                    <div class="col-12">
+                        <div class="serach_field-area">
+                            <div class="search_inner">
+                                <form method="get" action="{% url 'app2:category_list' %}">
+                                    <div class="search_field">
+                                        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search here...">
+                                    </div>
+                                    <button type="submit"> <img src="{% static 'app2/img/icon/icon_search.svg' %}" alt>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="sort_area">
+                            <form method="get" action="{% url 'app2:category_list' %}">
+                                <div class="form-group">
+                                    <label for="sort_by">Sort By:</label>
+                                    <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                                        <option value="-created_at" {% if request.GET.sort_by == '-created_at' %}selected{% endif %}>Newest</option>
+                                        <option value="created_at" {% if request.GET.sort_by == 'created_at' %}selected{% endif %}>Oldest</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Category Image</th>
+                                        <th>Category Title</th>
+                                        <th>Category Description</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for category in page %}
+                                    <tr>
+                                        <td><img src="{{ category.category_image.url }}" alt="{{ category.title }}" style="max-width: 100px; max-height:100px;" width="100"></td>
+                                        <td>{{ category.title }}</td>
+                                        <td>{{ category.description }}</td>
+                                        <td><a href="{% url 'app2:add_edit_category' category.slug %}" class="btn btn-primary">Edit</a></td>
+                                        <td><a href="{% url 'app2:delete_category' category.slug %}" class="btn btn-danger">Delete</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="pagination_area">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
+                                    {% if page.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=1">&laquo;</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ page.previous_page_number }}">{{ page.previous_page_number }}</a></li>
+                                    {% endif %}
+                                    <li class="page-item active"><a class="page-link" href="?page={{ page.number }}">{{ page.number }}</a></li>
+                                    {% if page.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ page.next_page_number }}">{{ page.next_page_number }}</a></li>
+                                    <li class="page-item"><a class="page-link" href="?page={{ page.paginator.num_pages }}">&raquo;</a></li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

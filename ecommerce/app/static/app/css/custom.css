@@ -1,0 +1,141 @@
+.selected-option::before {
+    content: "Selected: ";
+    font-weight: bold;
+  }
+  
+  .selected-option::after {
+    content: attr(data-selected);
+  }
+  
+  /* Style the selected option's text */
+  .filter-option-inner-inner[data-selected]:before {
+    content: "Selected: ";
+    font-weight: bold;
+  }
+  
+  .filter-option-inner-inner[data-selected]:after {
+    content: attr(data-selected);
+    color: #007bff; /* You can adjust the color as needed */
+  }
+  
+  /* Hide the selected option from the dropdown */
+  #sorting option:checked,
+  #sort_order option:checked {
+    display: none;
+  }
+
+.contact-form {
+  background-color: #f9f9f9;
+  padding: 40px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the form fields */
+.contact-form .form-group {
+  margin-bottom: 20px;
+}
+
+.contact-form label {
+  font-weight: bold;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+/* Style for the submit button */
+.contact-form button {
+  background-color: #ff9900;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #ffac33;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+  .contact-form {
+    padding: 20px;
+  }
+}
+
+.blog_area {
+  padding: 30px 0;
+}
+
+.blog-posts {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px; /* Counteract the negative margin from individual blog items */
+}
+
+.blog_item {
+  flex: 0 0 calc(33.3333% - 30px); /* Adjust the percentage based on your layout */
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 15px; /* Apply margin to individual blog items */
+  transition: transform 0.2s ease-in-out;
+  box-sizing: border-box;
+  height: 300px; /* Set a fixed height for uniform box size */
+  overflow: hidden; /* Hide overflow content */
+}
+
+.blog_item:hover {
+  transform: translateY(-5px);
+}
+
+.blog-details {
+  padding-top: 15px;
+}
+
+.blog-info-link {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.blog-info-link li {
+  display: inline-block;
+  margin-right: 15px;
+  font-size: 14px;
+}
+
+.blog_info_link li i {
+  margin-right: 5px;
+}
+
+.blog_details {
+  margin-top: 10px;
+}
+
+
+.blog_title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+.blog_date {
+  font-size: 14px;
+  color: #888;
+}
+

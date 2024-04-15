@@ -1,0 +1,75 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="container">
+    <!-- HERO SECTION -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="h2 text-uppercase mb-0">Cart</h1>
+                </div>
+                <div class="col-lg-6 text-lg-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-lg-end mb-0 px-0">
+                            <li class="breadcrumb-item"><a href="{% url 'app:home' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="cart-table">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in wishlist_items %}
+                      <tr>
+                          <td class="product-thumbnail">
+                              <a href="{% url 'app:product-detail' slug=item.product.slug %}">
+                                  <img src="{{ item.product.product_image.url }}" style="height: 80px; width: 80px;" alt="{{ item.product.title }}">
+                              </a>
+                          </td>
+                          <td class="product-price">{{ item.product.price|floatformat:2 }}</td>
+                          <td class="product-actions">
+                            <div class="d-flex">
+                                <div class="mr-2">
+                                    <form action="{% url 'app:add-to-cart' %}">
+                                        <input type="hidden" name="prod_id" value="{{ item.product.id }}" id="product_id">
+                                        {% if item.product.id in cart_product_ids %}
+                                            <button type="submit" class="btn btn-sm btn-primary">Remove from Cart</button>
+                                        {% else %}
+                                            <button type="submit" class="btn btn-sm btn-primary">Add to Cart</button>
+                                        {% endif %}
+                                    </form>
+                                </div>
+                                <div>
+                                    <form method="post" action="{% url 'app:add-to-wishlist' item.product.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                        
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

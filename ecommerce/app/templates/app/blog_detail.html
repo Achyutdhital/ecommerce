@@ -1,0 +1,52 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block metatitle %} Blog {% endblock metatitle %}
+
+{% block content %}
+<section class="blog_detail_area section_padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <section class="py-5 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Blog Detail</h1>
+              </div>
+              <div class="col-lg-6 text-lg-right">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0">
+                    <li class="breadcrumb-item"><a href="{% url 'app:home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'app:blog' %}">Blog</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ blog_post.title }}</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="blog_detail_content">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="blog_detail_item">
+                <h2 style="text-align: center;">{{ blog_post.title }}</h2>
+                <div class="blog_item_img">
+                  <img class="card-img rounded-0" style="max-width:300px; max-height:300px;" src="{{ blog_post.image.url }}" alt="{{ blog_post.title }}">
+                </div>
+                <div class="blog_details">
+                  <p>{{ blog_post.content |safe}}</p>
+                </div>
+                <div class="blog-meta" style="">
+                  <span class="meta-item"><i class="fa fa-user"></i> Uploader: <span class="text-gray">{{ blog_post.uploader.username }}</span></span><br>
+                  <span class="meta-item"><i class="fa fa-calendar"></i> Publish date: <span class="text-gray">{{ blog_post.publish_date|date:"F d, Y H:i" }}</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

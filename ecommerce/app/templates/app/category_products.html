@@ -1,0 +1,159 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+    {% block content %}
+    
+      <div class="container">
+        <!-- HERO SECTION-->
+        <section class="py-5 bg-light">
+          <div class="container">
+            <div class="row px-4 px-lg-5 py-lg-4 align-items-center">
+              <div class="col-lg-6">
+                <h1 class="h2 text-uppercase mb-0">Shop - {{category.title}}</h1>
+              </div>
+              <div class="col-lg-6 text-lg-right">
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb justify-content-lg-end mb-0 px-0">
+                    <li class="breadcrumb-item"><a href="{% url 'app:home' %}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'app:all-categories' %}">Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{category.title}}</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="py-5">
+          <div class="container p-0">
+            <div class="row">
+              <!-- SHOP SIDEBAR-->
+              <div class="col-lg-3 order-2 order-lg-1">
+                <div class="mb-4">
+                  <form method="get">
+                    <h5 class="text-uppercase mb-4">Sort</h5>
+                    <div class="d-flex flex-column mb-3">
+                      <div class="mb-2">
+                        <label for="sorting">Sort by:</label>
+                        <select class="selectpicker" name="sorting" id="sorting" data-width="150" data-style="bs-select-form-control" onchange="this.form.submit()" >
+                          <option value="latest" {% if selected_sort_by == "latest" %}selected{% endif %}>Latest</option>
+                          <option value="name" {% if selected_sort_by == "name" %}selected{% endif %}>Name</option>
+                          <option value="price" {% if selected_sort_by == "price" %}selected{% endif %}>Price</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label for="sort_order">Sort Order:</label>
+                        <select class="selectpicker" name="sort_order" id="sort_order" data-width="150" data-style="bs-select-form-control" onchange="this.form.submit()">
+                          <option value="asc" {% if selected_sort_order == "asc" %}selected{% endif %}>Ascending</option>
+                          <option value="desc" {% if selected_sort_order == "desc" %}selected{% endif %}>Descending</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <h5 class="text-uppercase mb-4">Categories</h5>
+
+                {% if categories %}
+                  <a href="{% url 'app:shop'%}">
+                    <div class="py-2 px-4 {% if not category %}bg-dark text-white {% else %}bg-light{% endif %} mb-3">
+                      <strong class="small text-uppercase font-weight-bold">All categories</strong>
+                    </div>
+                  </a>
+                  {% for cat in categories %}
+                    <a href="{% url 'app:category-products' cat.slug %}">
+                      <div class="py-2 px-4 {% if category == cat %}bg-dark text-white {% else %}{% if not category %}bg-light{% endif %}{% endif %} mb-3">
+                        <strong class="small text-uppercase font-weight-bold">{{cat.title}}</strong>
+                      </div>
+                    </a>
+                  {% endfor %}
+                {% endif %}
+              </div>
+              <!-- SHOP LISTING-->
+              <div class="col-lg-9 order-1 order-lg-2 mb-5 mb-lg-0">
+                <div class="row mb-3 align-items-center">
+                  <div class="col-lg-6 mb-2 mb-lg-0">
+                    <p class="text-small text-muted mb-0">Showing {{ products.start_index }}–{{ products.end_index }} of {{ products.paginator.count }} results</p>
+                  </div>
+                  <div class="col-lg-6" >
+                    <form method="get" action="{% url 'app:shop' %}" >
+                        <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search...">
+                        <button type="submit" class="search-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg></i></button>
+                    </form>
+                  </div>
+                  
+                </div>
+
+                <div class="row">
+
+                  {% if products %}
+                    {% for product in products %}
+                    
+                      <!-- PRODUCT-->
+                      <div class="col-lg-4 col-sm-6">
+                        <div class="product text-center">
+                          <div class="mb-3 position-relative">
+
+                            <div class="badge text-white badge-"></div>
+
+                            <a class="d-block" href="{% url 'app:product-detail' product.slug %}">
+                              {% if product.product_image %}
+                                <img class="img-fluid w-100" src="{{product.product_image.url}}" alt="{{product.title}}">
+                              {% else %}
+                                <img class="img-fluid w-100" src="{% static 'app/img/product-1.jpg' %}" alt="{{product.title}}">
+                              {% endif %}
+                            </a>
+
+                            <div class="product-overlay">
+                              <ul class="mb-0 list-inline">
+                                <li class="list-inline-item m-0 p-0"><a class="btn btn-sm btn-outline-dark" href="{% url 'app:add-to-wishlist' product.id %}">
+                                  {% if user.is_authenticated %}
+                                    {% if product.id in is_in_wishlist %}
+                                        <i class="fas fa-heart "></i> 
+                                    {% else %}
+                                        <i class="far fa-heart "></i>
+                                    {% endif %}
+                                  {% else %}
+                                      <i class="far fa-heart"></i> 
+                                  {% endif %}</a></li>
+                                <li class="list-inline-item m-0 p-0">
+                                  {% comment %} <a class="btn btn-sm btn-dark" href="{% url 'app:add-to-cart' %}">Add to cart</a> {% endcomment %}
+
+                                  <form action="{% url 'app:add-to-cart' %}">
+                                    <input type="hidden" name="prod_id" value="{{product.id}}" id="product_id">
+                                    {% if product.id in cart_product_ids %}
+                                    <button type="submit" class="btn btn-sm btn-dark">Remove from Cart</button>
+                                  {% else %}
+                                    <button type="submit" class="btn btn-sm btn-dark">Add to Cart</button>
+                                  {% endif %}                                  </form>
+
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                          <h6> <a class="reset-anchor" href="{% url 'app:product-detail' product.slug %}">{{product.title}}</a></h6>
+                          <p class="small text-muted">${{product.price}}</p>
+                        </div>
+                      </div>
+
+                    {% endfor %}
+                  {% endif %}
+
+
+                </div>
+                <!-- PAGINATION-->
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center justify-content-lg-end">
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      {% endblock content %}
