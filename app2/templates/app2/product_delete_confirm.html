@@ -1,0 +1,26 @@
+{% extends 'app2/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="main_content_iner">
+    <div class="container-fluid p-0 sm_padding_15px">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="dashboard_header mb-4">
+                    <h2>Delete Product</h2>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <p>Are you sure you want to delete "{{ product.title }}"?</p>
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <a href="{% url 'app2:product_list' %}" class="btn btn-secondary">Cancel</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
