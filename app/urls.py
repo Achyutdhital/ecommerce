@@ -16,10 +16,10 @@ app_name = 'app'
 urlpatterns = [
     path('', views.home, name="home"),
     #api practice
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
 
-    path('api/product/', views.product_list),
-    path('api/product/<int:pk>/', views.product_detail),
+    # path('api/product/', views.product_list),
+    # path('api/product/<int:pk>/', views.product_detail),
     #end api practice lines
     
     path('add-to-cart/', views.add_to_cart, name="add-to-cart"),
