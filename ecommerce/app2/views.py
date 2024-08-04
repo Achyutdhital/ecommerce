@@ -59,7 +59,8 @@ class ProductListView(View):
         if search_query:
             products = products.filter(
                 Q(title__icontains=search_query) |
-                Q(category__title__icontains=search_query)
+                Q(category__title__icontains=search_query) |
+                Q(short_description__icontains=search_query)
             )
 
 
@@ -193,7 +194,10 @@ class CategoryListView(View):
         categories = Category.objects.all()
 
         if search_query:
-            categories = categories.filter(title__icontains=search_query)
+            categories = categories.filter(
+                Q(title__icontains=search_query) |
+                Q(description__icontains=search_query)
+            )
 
         categories = categories.order_by(sort_by)
 
